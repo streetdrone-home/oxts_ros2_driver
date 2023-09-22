@@ -19,7 +19,7 @@ namespace oxts_driver
 
 void OxtsDriver::timerNcomSocketCallback()
 {
-  RCLCPP_INFO(this->get_logger(), "Timer ticked.");
+  RCLCPP_DEBUG(this->get_logger(), "Timer ticked.");
   OxtsDriver::getSocketPacket();
   OxtsDriver::publishPacket();
 }
@@ -36,7 +36,7 @@ void OxtsDriver::getFilePacket()
 
   do {
     if (!this->inFileNCom.get(c)) {
-      RCLCPP_INFO(this->get_logger(), "End of NCom file reached.");
+      RCLCPP_DEBUG(this->get_logger(), "End of NCom file reached.");
       rclcpp::shutdown();
       return;
     }
@@ -45,7 +45,7 @@ void OxtsDriver::getFilePacket()
 
 void OxtsDriver::getSocketPacket()
 {
-  RCLCPP_INFO(this->get_logger(), "Getting socket packet...");
+  RCLCPP_DEBUG(this->get_logger(), "Getting socket packet...");
   // Read from open socket
   std::size_t size =
     this->udpClient.receive_from(this->buff, NCOM_PACKET_LENGTH, this->unitEndpointNCom);
@@ -56,13 +56,13 @@ void OxtsDriver::getSocketPacket()
 
 void OxtsDriver::publishPacket()
 {
-  RCLCPP_INFO(this->get_logger(), "Publishing packet.");
+  RCLCPP_DEBUG(this->get_logger(), "Publishing packet.");
   // publish the NCOM packet
   switch (this->nrx->mOutputPacketType) {
     case OUTPUT_PACKET_REGULAR: {
-      RCLCPP_INFO(this->get_logger(), "Regular packet received.");
+      RCLCPP_DEBUG(this->get_logger(), "Regular packet received.");
       if (this->checkRate(this->prevRegularWeekSecond, this->nrx->mTimeWeekSecond)) {
-        RCLCPP_INFO(this->get_logger(), "Rate check failed.");
+        RCLCPP_DEBUG(this->get_logger(), "Rate check failed.");
         return;
       }
 
@@ -76,11 +76,11 @@ void OxtsDriver::publishPacket()
       break;
     }
     case OUTPUT_PACKET_STATUS: {
-      RCLCPP_INFO(this->get_logger(), "Status packet received.");
+      RCLCPP_DEBUG(this->get_logger(), "Status packet received.");
       break;
     }
     default:
-      RCLCPP_INFO(this->get_logger(), "Unknown packet received.");
+      RCLCPP_DEBUG(this->get_logger(), "Unknown packet received.");
       break;
   }
 }
