@@ -19,7 +19,7 @@ oxts_ins:
     pub_nav_sat_fix_rate    : 4
     nav_sat_fix_topic       : "nav_sat_fix"
     ### Publish Velocity message
-    pub_velocity_rate       : 0
+    pub_velocity_rate       : 10
     velocity_topic          : "velocity"
     ### Publish Odometry message
     pub_odometry_rate       : 100
